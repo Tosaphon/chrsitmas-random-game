@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
 import { QRCodeSVG } from 'qrcode.react'; // Import สำหรับสร้าง QR Code
@@ -7,7 +7,7 @@ import './styles.css';
 const client = generateClient<Schema>();
 
 export default function Dashboard() {
-    const [numbers, setNumbers] = useState<{ id: string; number: string }[]>([]);
+    const [numbers, setNumbers] = useState<{ id: string; number: string | null }[]>([]);
     const [stage, setStage] = useState<'default' | 'pairing'>('default');
     const [pairs, setPairs] = useState<number[][]>([]);
 
@@ -39,7 +39,7 @@ export default function Dashboard() {
 
         for (let i = 0; i < shuffled.length; i += 2) {
             if (shuffled[i + 1]) {
-                newPairs.push([parseInt(shuffled[i].number), parseInt(shuffled[i + 1].number)]);
+                newPairs.push([parseInt(shuffled[i].number ?? ""), parseInt(shuffled[i + 1].number ?? "")]);
             }
         }
 

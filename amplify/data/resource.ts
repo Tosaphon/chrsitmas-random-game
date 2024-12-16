@@ -3,18 +3,18 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 const schema = a.schema({
   NumberEntry: a
     .model({
-      number: a.string(),
+      number: a.string().required(),
     })
     .authorization((allow) => [allow.guest()]),
 
   RandomStatus: a
     .model({
-      status: a.boolean(),
+      status: a.boolean().required(),
     })
     .authorization((allow) => [allow.guest()]),
   RandomNumber: a
     .model({
-      randomNumbers: a.integer().array()
+      randomNumbers: a.integer().array().required()
     })
     .authorization((allow) => [allow.guest()]),
 });
