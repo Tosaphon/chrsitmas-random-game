@@ -41,4 +41,29 @@
     color: #ffffff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   }
+
+  .big2-number {
+    font-size: 3rem;
+    padding-top: -10px;
+    padding-bottom: -10px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+  .super-big-number {
+    font-size: 7rem;
+    padding-top: -10px;
+    padding-bottom: -10px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+  .normal-number {
+    font-size: 1.5rem;
+    margin-top: -40px;
+    margin-bottom: -40px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
   

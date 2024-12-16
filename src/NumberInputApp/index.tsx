@@ -27,7 +27,6 @@ export default function NumberInputApp() {
       try {
         const statusResponse = await client.models.RandomStatus.list();
         const activeStatus = statusResponse.data.find((status) => status.status === true);
-
         if (!activeStatus) {
           setPairedNumber(null);
           return;
@@ -59,12 +58,14 @@ export default function NumberInputApp() {
 
   // ตรวจสอบสถานะการ Clear Data จาก Admin
   useEffect(() => {
+
     const checkResetStatus = async () => {
       try {
-        const statusResponse = await client.models.RandomStatus.list();
-        const isCleared = statusResponse.data.every((status) => status.status === false);
-
-        if (isCleared) {
+        const existingNumbers = await client.models.NumberEntry.list();
+        const isNotMatch = existingNumbers.data.every((entry) => {
+          entry.number !== myNumber
+        });
+        if (isNotMatch) {
           // Clear Session และกลับไปหน้า Input
           localStorage.removeItem('myNumber');
           setMyNumber(null);
@@ -76,8 +77,7 @@ export default function NumberInputApp() {
       }
     };
 
-    const interval = setInterval(checkResetStatus, 5000);
-    return () => clearInterval(interval);
+    checkResetStatus()
   }, []);
 
   // ฟังก์ชันเพิ่มหมายเลขของฉัน
@@ -154,12 +154,14 @@ export default function NumberInputApp() {
         <p>Loading...</p>
       ) : pairedNumber ? (
         <div className="number-display-section">
-          <h1>ผลลัพธ์การจับคู่</h1>
-          <p>
-            หมายเลขของคุณคือ <strong>{myNumber}</strong>
+          <h1 style={{marginBottom: 100}}>ผลลัพธ์การจับคู่</h1>
+          <p className="normal-number">หมายเลขของคุณคือ</p>
+          <p className="big2-number">
+            <strong>{myNumber}</strong>
           </p>
-          <p>
-            คู่ของคุณคือ <strong>{pairedNumber}</strong>
+          <p className="normal-number">คู่ของคุณคือ </p>
+          <p className="big2-number">
+            <strong>{pairedNumber}</strong>
           </p>
         </div>
       ) : (

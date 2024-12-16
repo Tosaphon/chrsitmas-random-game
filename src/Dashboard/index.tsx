@@ -13,18 +13,29 @@ export default function Dashboard() {
 
     // Fetch ข้อมูล Auto Fetch ทุก 5 วินาที
     useEffect(() => {
-        const fetchNumbers = async () => {
+        const fetchData = async () => {
             try {
-                const response = await client.models.NumberEntry.list();
-                setNumbers(response.data || []);
+                // Fetch หมายเลขทั้งหมด
+                const numberResponse = await client.models.NumberEntry.list();
+                setNumbers(numberResponse.data || []);
+    
+                // Fetch ข้อมูล Pairing
+                const pairResponse = await client.models.RandomNumber.list();
+                if (pairResponse.data.length > 0) {
+                    const pairsData = pairResponse.data.map((pair) =>
+                        pair.randomNumbers.filter((num): num is number => num !== null) // กรอง null ออก
+                    );
+                    setPairs(pairsData); // อัปเดต pairs
+                    setStage('pairing'); // หากมีข้อมูลใน RandomNumber ให้เข้าสู่ Stage Pairing
+                } else {
+                    setStage('default'); // หากไม่มีข้อมูลให้เข้าสู่ Stage Default
+                }
             } catch (error) {
-                console.error('Error fetching numbers:', error);
+                console.error('Error fetching data:', error);
             }
         };
-
-        fetchNumbers();
-        const interval = setInterval(fetchNumbers, 5000);
-        return () => clearInterval(interval); // Cleanup interval
+    
+        fetchData();
     }, []);
 
     // ฟังก์ชันจับคู่ Random Pairing
@@ -124,9 +135,6 @@ export default function Dashboard() {
                     ) : (
                         <p>ไม่มีข้อมูลการจับคู่</p>
                     )}
-                    <button className="btn btn-secondary mt-4" onClick={() => setStage('default')}>
-                        กลับไปหน้า Dashboard
-                    </button>
                 </div>
             )}
         </div>
