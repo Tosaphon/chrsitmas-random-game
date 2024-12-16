@@ -1,45 +1,18 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
-// import { batchInsertNumbers } from './functions/batch-insert-numbers/resource'
-// import { checkAndSaveNumber } from './functions/check-and-save-number/resource'
-// import { fetchRandomStatus } from './functions/fetch-random-status/resource'
 
 const schema = a.schema({
   NumberEntry: a
     .model({
       number: a.string(),
     })
-    .authorization((allow) => [allow.guest()]),
+    .authorization(allow => [allow.publicApiKey()]),
 
   RandomStatus: a
     .model({
       status: a.boolean(),
       randomNumbers: a.integer().array()
-        .authorization((allow) => [allow.guest()]),
+        .authorization(allow => [allow.publicApiKey()])
     }),
-
-  // checkAndSaveNumber: a.mutation()
-  //   .arguments({
-  //     number: a.integer().required(),
-  //   })
-  //   .returns(
-  //     a.model({
-  //       success: a.boolean().required(),
-  //       error: a.string(),
-  //     })
-  //   )
-  //   .handler(a.handler.function(checkAndSaveNumber)),
-  // fetchRandomStatus: a.query()
-  //   .returns(
-  //     a.model({
-  //       status: a.string().required(),
-  //       randomNumbers: a.integer().array(),
-  //     })
-  //   )
-  //   .handler(a.handler.function(fetchRandomStatus)),
-
-  // batchInsertNumbers: a.query()
-  //   .handler(a.handler.function(batchInsertNumbers)),
-
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -47,8 +20,9 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam',
-  },
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: { expiresInDays: 30 }
+  }
 });
 
 /*== STEP 2 ===============================================================

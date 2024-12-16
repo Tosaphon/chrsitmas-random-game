@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { Schema } from '../amplify/data/resource'; // Import Schema จาก resource.ts
 import { generateClient } from 'aws-amplify/data'; // ใช้ generateClient เพื่อสร้าง client
 
-const client = generateClient<Schema>(); // สร้าง Client โดยอ้างอิง Schema
+const client = generateClient<Schema>();
 
 export default function NumberInputApp() {
   const [displayNumber, setDisplayNumber] = useState<string | null>(null);
@@ -16,11 +16,11 @@ export default function NumberInputApp() {
 
     // const number = parseInt(input, 10);
     // const stringNumber = client.models.NumberEntry.get({ id: input })
-    //   console.log(stringNumber)
+      console.log(input)
 
     try {
       await client.models.NumberEntry.create({
-        number: input
+        input
       });
 
       // แสดงหมายเลข
