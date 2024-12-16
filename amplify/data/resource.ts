@@ -4,21 +4,15 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 // import { fetchRandomStatus } from './functions/fetch-random-status/resource'
 
 const schema = a.schema({
-  Todo: a
-    .model({
-      content: a.string(),
-    })
-    .authorization((allow) => [allow.guest()]),
-
   NumberEntry: a
     .model({
-      number: a.integer().required(),
+      number: a.string(),
     })
     .authorization((allow) => [allow.guest()]),
 
   RandomStatus: a
     .model({
-      status: a.boolean().required(),
+      status: a.boolean(),
       randomNumbers: a.integer().array()
         .authorization((allow) => [allow.guest()]),
     }),

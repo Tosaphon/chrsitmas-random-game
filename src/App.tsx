@@ -5,7 +5,7 @@ import { generateClient } from 'aws-amplify/data'; // ใช้ generateClient �
 const client = generateClient<Schema>(); // สร้าง Client โดยอ้างอิง Schema
 
 export default function NumberInputApp() {
-  const [displayNumber, setDisplayNumber] = useState<number | null>(null);
+  const [displayNumber, setDisplayNumber] = useState<string | null>(null);
 
   const addNumber = async () => {
     const input = window.prompt("Enter a number:");
@@ -14,14 +14,17 @@ export default function NumberInputApp() {
       return;
     }
 
-    const number = parseInt(input, 10);
+    // const number = parseInt(input, 10);
+    // const stringNumber = client.models.NumberEntry.get({ id: input })
+    //   console.log(stringNumber)
 
     try {
-      // ใช้ client เพื่อสร้างหมายเลขใหม่
-      await client.models.NumberEntry.create({ number });
+      await client.models.NumberEntry.create({
+        number: input
+      });
 
       // แสดงหมายเลข
-      setDisplayNumber(number);
+      setDisplayNumber(input);
     } catch (error) {
       console.error("Error creating number:", error);
       alert("Failed to save number. Please try again.");
