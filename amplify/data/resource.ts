@@ -10,11 +10,13 @@ const schema = a.schema({
   RandomStatus: a
     .model({
       status: a.boolean(),
+    })
+    .authorization((allow) => [allow.guest()]),
+  RandomNumber: a
+    .model({
       randomNumbers: a.integer().array()
     })
     .authorization((allow) => [allow.guest()]),
-
-
 });
 
 export type Schema = ClientSchema<typeof schema>;

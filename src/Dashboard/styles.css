@@ -1,0 +1,91 @@
+/* Layout Container */
+.dashboard-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background: url('../assets/HomecomingBg.svg') no-repeat center center;
+    background-size: cover;
+    box-sizing: border-box;
+  }
+  
+  .dashboard-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .qr-code-large {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dashboard-with-data {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .qr-code-small {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .number-list {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+  }
+  
+  .number-item {
+    background-color: #e9ecef;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #495057;
+    width: 100px;
+  }
+  
+  .start-pairing-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .dashboard-with-data {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .number-list {
+      justify-content: center;
+    }
+  
+    .qr-code-small {
+      margin-bottom: 1rem;
+    }
+  }
+  

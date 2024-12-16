@@ -1,0 +1,110 @@
+/* Layout Container */
+.admin-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .admin-header {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  /* Add Number Section */
+  .add-number-section {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .number-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .number-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.8);
+  }
+  
+  .number-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .number-table th,
+  .number-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .number-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .number-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .number-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Clear Data Section */
+  .clear-data-section {
+    margin-top: 2rem;
+  }
+  
+  .clear-data-section .btn {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .clear-data-section .btn:hover {
+    background-color: #c82333;
+  }
+  
+  @media (max-width: 768px) {
+    .admin-header {
+      font-size: 1.5rem;
+    }
+  
+    .add-number-section {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .number-input {
+      width: 100%;
+    }
+  
+    .number-table th,
+    .number-table td {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  
+    .clear-data-section .btn {
+      font-size: 0.9rem;
+    }
+  }
+  
