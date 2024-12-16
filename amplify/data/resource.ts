@@ -5,14 +5,16 @@ const schema = a.schema({
     .model({
       number: a.string(),
     })
-    .authorization(allow => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.guest()]),
 
   RandomStatus: a
     .model({
       status: a.boolean(),
       randomNumbers: a.integer().array()
-        .authorization(allow => [allow.publicApiKey()])
-    }),
+    })
+    .authorization((allow) => [allow.guest()]),
+
+
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -20,9 +22,8 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'apiKey',
-    apiKeyAuthorizationMode: { expiresInDays: 30 }
-  }
+    defaultAuthorizationMode: 'iam',
+  },
 });
 
 /*== STEP 2 ===============================================================
