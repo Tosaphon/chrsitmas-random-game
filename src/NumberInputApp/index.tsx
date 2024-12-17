@@ -83,7 +83,8 @@ export default function NumberInputApp() {
 
   // ฟังก์ชันเพิ่มหมายเลขของฉัน
   const handleAddNumber = async () => {
-    if (!inputValue || isNaN(Number(inputValue))) {
+    const numValue = Number(inputValue)
+    if (!inputValue || isNaN(numValue) || numValue < 0 || numValue > 200) {
       alert('กรุณากรอกหมายเลขที่ถูกต้อง!');
       return;
     }
@@ -135,16 +136,23 @@ export default function NumberInputApp() {
     }
   };
 
+  const handleInput = (e: string) => {
+    const numericValue = e.replace(/[^0-9]/g, '');
+    setInputValue(numericValue)
+  };
+
   return (
     <div className="input-app-container">
       {!myNumber ? (
         <div className="number-input-section">
           <h1>กรุณากรอกหมายเลขของคุณ</h1>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Enter your number"
+            onChange={(e) => handleInput(e.target.value)}
+            placeholder="กรุณาใส่ตัวเลข"
             className="number-input"
           />
           <button onClick={handleAddNumber} className="btn btn-primary">
@@ -162,7 +170,11 @@ export default function NumberInputApp() {
           </p>
           <p className="normal-number">คู่ของคุณคือ </p>
           <p className="big2-number">
-            <strong>{pairedNumber}</strong>
+            {
+              pairedNumber == "-99" 
+              ? <strong>ได้การ์ดพิเศษ!!</strong>
+              : <strong>{pairedNumber}</strong>
+            }
           </p>
         </div>
       ) : (
