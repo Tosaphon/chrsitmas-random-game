@@ -19,8 +19,11 @@ export default function NumberInputApp() {
       const checkResetStatus = async () => {
         try {
           const existingNumbers = await client.models.NumberEntry.list();
-          const isNotMatch = existingNumbers.data.every((entry) => {
-            entry.number !== savedNumber
+          var isNotMatch = false
+          existingNumbers.data.forEach((entry) => {
+            if (entry.number !== savedNumber) {
+              isNotMatch = true
+            }
           });
           if (isNotMatch) {
             // Clear Session และกลับไปหน้า Input
