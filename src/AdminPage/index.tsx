@@ -53,7 +53,7 @@ export default function AdminPage() {
 
         try {
             await client.models.NumberEntry.create({ number: newNumber });
-            alert(`หมายเลข ${newNumber} ถูกเพิ่มเรียบร้อยแล้ว!`);
+            window.location.reload();
             setNewNumber(''); // รีเซ็ตค่า input
         } catch (error) {
             console.error('Error adding number:', error);
@@ -68,7 +68,7 @@ export default function AdminPage() {
 
         try {
             await client.models.NumberEntry.delete({ id });
-            alert(`หมายเลข ${number} ถูกลบเรียบร้อยแล้ว!`);
+            window.location.reload();
             fetchNumberEntries();
         } catch (error) {
             console.error('Error removing number:', error);
@@ -94,6 +94,7 @@ export default function AdminPage() {
             }
 
             alert('ระบบถูกรีเซ็ตเป็นค่าเริ่มต้นเรียบร้อยแล้ว!');
+            window.location.reload();
         } catch (error) {
             console.error('Error clearing data:', error);
             alert('เกิดข้อผิดพลาดในการรีเซ็ตระบบ กรุณาลองอีกครั้ง!');
@@ -124,10 +125,26 @@ export default function AdminPage() {
             }
 
             alert('ระบบถูกรีเซ็ตเป็นค่าเริ่มต้นเรียบร้อยแล้ว!');
+            window.location.reload();
         } catch (error) {
             console.error('Error clearing data:', error);
             alert('เกิดข้อผิดพลาดในการรีเซ็ตระบบ กรุณาลองอีกครั้ง!');
         }
+    };
+
+    // ฟังก์ชันสำหรับ Copy ข้อมูลไปยัง Clipboard
+    const copyToClipboard = () => {
+        const numbers = numberEntries
+            .filter((entry) => entry.number !== null) // ตรวจสอบว่า number ไม่เป็น null
+            .map((entry) => entry.number)
+            .join('\n'); // รวมเป็น String แบบคั่นด้วย New Line
+
+        navigator.clipboard.writeText(numbers).then(() => {
+            alert('คัดลอกหมายเลขทั้งหมดไปยัง Clipboard แล้ว!');
+        }).catch((error) => {
+            console.error('Failed to copy numbers:', error);
+            alert('เกิดข้อผิดพลาดในการคัดลอกข้อมูล!');
+        });
     };
 
     return (
@@ -167,6 +184,7 @@ export default function AdminPage() {
                                 <td className="number-cell">{entry.number}</td>
                                 <td className="action-cell">
                                     <button
+                                        style={{ backgroundColor: 'red', color: 'white' }}
                                         onClick={() => handleRemove(entry.id, entry.number)}
                                         className="btn btn-danger"
                                     >
@@ -189,6 +207,11 @@ export default function AdminPage() {
             <div className="clear-data-section">
                 <button className="btn btn-danger" onClick={handleClearRandom}>
                     Clear Random Data
+                </button>
+            </div>
+            <div className="copy-data-section">
+                <button className="btn btn-secondary copy-btn" onClick={copyToClipboard}>
+                    คัดลอกหมายเลขทั้งหมด
                 </button>
             </div>
 

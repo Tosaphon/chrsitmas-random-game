@@ -16,6 +16,25 @@ export default function NumberInputApp() {
     const savedNumber = localStorage.getItem('myNumber');
     if (savedNumber) {
       setMyNumber(savedNumber);
+      const checkResetStatus = async () => {
+        try {
+          const existingNumbers = await client.models.NumberEntry.list();
+          const isNotMatch = existingNumbers.data.every((entry) => {
+            entry.number !== savedNumber
+          });
+          if (isNotMatch) {
+            // Clear Session และกลับไปหน้า Input
+            localStorage.removeItem('myNumber');
+            setMyNumber(null);
+            setPairedNumber(null);
+            setIsFetching(false);
+          }
+        } catch (error) {
+          console.error('Error checking reset status:', error);
+        }
+      };
+  
+      checkResetStatus()
     }
   }, []);
 
@@ -55,30 +74,6 @@ export default function NumberInputApp() {
     const interval = setInterval(fetchPairingStatus, 5000);
     return () => clearInterval(interval);
   }, [myNumber]);
-
-  // ตรวจสอบสถานะการ Clear Data จาก Admin
-  useEffect(() => {
-
-    const checkResetStatus = async () => {
-      try {
-        const existingNumbers = await client.models.NumberEntry.list();
-        const isNotMatch = existingNumbers.data.every((entry) => {
-          entry.number !== myNumber
-        });
-        if (isNotMatch) {
-          // Clear Session และกลับไปหน้า Input
-          localStorage.removeItem('myNumber');
-          setMyNumber(null);
-          setPairedNumber(null);
-          setIsFetching(false);
-        }
-      } catch (error) {
-        console.error('Error checking reset status:', error);
-      }
-    };
-
-    checkResetStatus()
-  }, []);
 
   // ฟังก์ชันเพิ่มหมายเลขของฉัน
   const handleAddNumber = async () => {

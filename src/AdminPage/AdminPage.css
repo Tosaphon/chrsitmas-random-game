@@ -1,10 +1,15 @@
 /* Layout Container */
 .admin-page {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     padding: 2rem;
-    text-align: center;
+    /* background: url('../assets/HomecomingBg.svg') no-repeat center center; */
+    background-size: cover;
+    box-sizing: border-box;
   }
   
   .admin-header {
@@ -81,6 +86,24 @@
   
   .clear-data-section .btn:hover {
     background-color: #c82333;
+  }
+
+  .copy-data-section .btn:hover {
+    background-color: #25dd1c;
+  }
+
+  .copy-data-section .btn {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #25dd1c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .copy-data-section {
+    margin-top: 2rem;
   }
   
   @media (max-width: 768px) {

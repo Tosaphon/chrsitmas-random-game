@@ -40,7 +40,6 @@ export default function Dashboard() {
         return () => clearInterval(interval); // Cleanup interval
     }, []);
 
-    // ฟังก์ชันจับคู่ Random Pairing
     const handleRandomPair = async () => {
         if (numbers.length < 2) {
             alert('ต้องมีตัวเลขอย่างน้อย 2 ตัวเพื่อจับคู่!');
@@ -49,10 +48,19 @@ export default function Dashboard() {
 
         const shuffled = [...numbers].sort(() => Math.random() - 0.5);
         const newPairs: number[][] = [];
+        let specialNumber: number | null = null;
 
+        // จับคู่ตัวเลขทีละสอง
         for (let i = 0; i < shuffled.length; i += 2) {
             if (shuffled[i + 1]) {
-                newPairs.push([parseInt(shuffled[i].number ?? ""), parseInt(shuffled[i + 1].number ?? "")]);
+                newPairs.push([
+                    parseInt(shuffled[i].number ?? ""),
+                    parseInt(shuffled[i + 1].number ?? ""),
+                ]);
+            } else {
+                // หากไม่มีคู่ บันทึกตัวเลขนี้คู่กับค่า reserved (-99)
+                specialNumber = parseInt(shuffled[i].number ?? "");
+                newPairs.push([specialNumber, -99]);
             }
         }
 
@@ -76,7 +84,9 @@ export default function Dashboard() {
 
             // เพิ่มข้อมูลใหม่ใน RandomNumber
             for (const pair of newPairs) {
-                await client.models.RandomNumber.create({ randomNumbers: pair });
+                await client.models.RandomNumber.create({
+                    randomNumbers: pair,
+                });
             }
 
             setPairs(newPairs);
@@ -86,6 +96,20 @@ export default function Dashboard() {
             alert('เกิดข้อผิดพลาดในการจับคู่!');
         }
     };
+
+    const renderPairing = (index: number, pair1: number, pair2: number) => {
+        let pair1Render = pair1 == -99 ? "คนพิเศษ!" : pair1
+        let pair2Render = pair2 == -99 ? "คนพิเศษ!" : pair2
+        return (
+            <div key={index} className="pair-item">
+                <div className="pair-box">
+                    <div className="pair-number">{pair1Render}</div>
+                    <div className="pair-divider">⇆</div>
+                    <div className="pair-number">{pair2Render}</div>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="dashboard-container">
@@ -112,7 +136,7 @@ export default function Dashboard() {
                                 <div className="qr-code-small">
                                     <QRCodeSVG
                                         value="https://main.d2jvswih7notwz.amplifyapp.com/"
-                                        size={300}
+                                        size={500}
                                         bgColor="#ffffff"
                                         fgColor="#000000"
                                         level="Q"
@@ -136,11 +160,7 @@ export default function Dashboard() {
                     <h1>ผลลัพธ์การจับคู่</h1>
                     <div className="pairing-grid">
                         {pairs.map((pair, index) => (
-                            <div key={index} className="pair-item">
-                                <div className="pair-number">{pair[0]}</div>
-                                <span>จับคู่กับ</span>
-                                <div className="pair-number">{pair[1]}</div>
-                            </div>
+                            renderPairing(index, pair[0], pair[1])
                         ))}
                     </div>
                 </div>
