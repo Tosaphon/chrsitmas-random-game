@@ -39,7 +39,7 @@ export default function NumberInputApp() {
           console.error('Error checking reset status:', error);
         }
       };
-  
+
       checkResetStatus()
     }
   }, []);
@@ -98,11 +98,12 @@ export default function NumberInputApp() {
         alert('หมายเลขนี้มีอยู่ในระบบแล้ว!');
         return;
       }
-
+      const numInput = "" + parseInt(inputValue)
+      console.log("number: ", numInput)
       // บันทึกหมายเลขใหม่
-      await client.models.NumberEntry.create({ number: inputValue });
-      localStorage.setItem('myNumber', inputValue); // บันทึกลง LocalStorage
-      setMyNumber(inputValue); // อัปเดต state
+      await client.models.NumberEntry.create({ number: numInput });
+      localStorage.setItem('myNumber', numInput); // บันทึกลง LocalStorage
+      setMyNumber(numInput); // อัปเดต state
       setInputValue(''); // ล้างค่า input
     } catch (error) {
       console.error('Error adding number:', error);
@@ -163,7 +164,7 @@ export default function NumberInputApp() {
         <p>Loading...</p>
       ) : pairedNumber ? (
         <div className="number-display-section">
-          <h1 style={{marginBottom: 100}}>ผลลัพธ์การจับคู่</h1>
+          <h1 style={{ marginBottom: 100 }}>ผลลัพธ์การจับคู่</h1>
           <p className="normal-number">หมายเลขของคุณคือ</p>
           <p className="big2-number">
             <strong>{myNumber}</strong>
@@ -171,9 +172,9 @@ export default function NumberInputApp() {
           <p className="normal-number">คู่ของคุณคือ </p>
           <p className="big2-number">
             {
-              pairedNumber == "-99" 
-              ? <strong>ได้การ์ดพิเศษ!!</strong>
-              : <strong>{pairedNumber}</strong>
+              pairedNumber == "-99"
+                ? <strong>ได้การ์ดพิเศษ!!</strong>
+                : <strong>{pairedNumber}</strong>
             }
           </p>
         </div>
